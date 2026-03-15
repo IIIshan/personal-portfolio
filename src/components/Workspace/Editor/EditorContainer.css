@@ -273,6 +273,35 @@
   font-size: 13px;
 }
 
+/* Blog links list (Further Reading sections) */
+.blog-links {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 24px;
+}
+
+.blog-links li {
+  margin-bottom: 12px;
+  padding-left: 0;
+}
+
+.blog-links li::before {
+  display: none;
+}
+
+.blog-links a {
+  color: var(--accent-a);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.blog-links a:hover {
+  border-bottom-color: var(--accent-a);
+}
+
 /* Blog auto-linked URLs (Further Reading, inline references) */
 .blog-body a {
   color: var(--accent-a);

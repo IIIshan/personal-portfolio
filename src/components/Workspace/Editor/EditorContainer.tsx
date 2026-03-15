@@ -160,6 +160,16 @@ function BlogBody({ blocks }: { blocks: import('../../../data/content').BlogBloc
                 {block.items.map((item, j) => <li key={j}>{linkify(item)}</li>)}
               </ol>
             )
+          case 'links':
+            return (
+              <ul key={i} className="blog-links">
+                {block.items.map((item, j) => (
+                  <li key={j}>
+                    <a href={item.url} target="_blank" rel="noreferrer">{item.label}</a>
+                  </li>
+                ))}
+              </ul>
+            )
           case 'blockquote':
             return <blockquote key={i}>{block.text}</blockquote>
           case 'callout':

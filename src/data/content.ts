@@ -105,6 +105,7 @@ export type BlogBlock =
   | { type: 'code'; lang: string; code: string }
   | { type: 'ul'; items: string[] }
   | { type: 'ol'; items: string[] }
+  | { type: 'links'; items: { label: string; url: string }[] }
   | { type: 'blockquote'; text: string }
   | { type: 'callout'; label: string; text: string }
   | { type: 'hr' }
@@ -283,12 +284,12 @@ export const BLOG: BlogEntry[] = [
 
       // ── Section 10: Further Reading ────────────────────────────────────────
       { type: 'h2', text: '10. Further Reading' },
-      { type: 'ul', items: [
-        'Docker docs — Dockerfile reference: https://docs.docker.com/reference/dockerfile/',
-        'Docker docs — Networking overview: https://docs.docker.com/engine/network/',
-        'Ivan Velichko — "Container Networking Is Simple!" (excellent deep dive): https://iximiuz.com/en/posts/container-networking-is-simple/',
-        'Julia Evans — "How containers work" (zine): https://wizardzines.com/zines/containers/',
-        'Jérôme Petazzoni — "Containers From Scratch" (PyCon talk): https://www.youtube.com/watch?v=8fi7uSYlOdc',
+      { type: 'links', items: [
+        { label: 'Docker docs — Dockerfile reference', url: 'https://docs.docker.com/reference/dockerfile/' },
+        { label: 'Docker docs — Networking overview', url: 'https://docs.docker.com/engine/network/' },
+        { label: 'Ivan Velichko — "Container Networking Is Simple!"', url: 'https://iximiuz.com/en/posts/container-networking-is-simple/' },
+        { label: 'Julia Evans — "How containers work" (zine)', url: 'https://wizardzines.com/zines/containers/' },
+        { label: 'Jérôme Petazzoni — "Containers From Scratch" (PyCon talk)', url: 'https://www.youtube.com/watch?v=8fi7uSYlOdc' },
       ] },
     ],
   },
@@ -441,12 +442,11 @@ export const BLOG: BlogEntry[] = [
 
       // ── Section 8: Further Reading ─────────────────────────────────────────
       { type: 'h2', text: '8. Further Reading' },
-      { type: 'ul', items: [
-        'The Linux Kernel documentation — ext4 filesystem: https://www.kernel.org/doc/html/latest/filesystems/ext4/',
-        'Understanding the Linux Filesystem (Anatomy of ext4): https://opensource.com/article/18/4/ext4-filesystem',
-        'Inode exhaustion in production — real incident writeups on HN and various postmortems are worth searching for.',
-        'OSTEP Chapter 40 — File System Implementation (free textbook): https://pages.cs.wisc.edu/~remzi/OSTEP/',
-        'Git Internals — Git Objects: https://git-scm.com/book/en/v2/Git-Internals-Git-Objects',
+      { type: 'links', items: [
+        { label: 'The Linux Kernel documentation — ext4 filesystem', url: 'https://www.kernel.org/doc/html/latest/filesystems/ext4/' },
+        { label: 'Understanding the Linux Filesystem (Anatomy of ext4)', url: 'https://opensource.com/article/18/4/ext4-filesystem' },
+        { label: 'OSTEP Chapter 40 — File System Implementation (free textbook)', url: 'https://pages.cs.wisc.edu/~remzi/OSTEP/' },
+        { label: 'Git Internals — Git Objects', url: 'https://git-scm.com/book/en/v2/Git-Internals-Git-Objects' },
       ] },
     ],
   },
