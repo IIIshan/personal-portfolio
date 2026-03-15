@@ -5,6 +5,7 @@ interface TreeItemProps {
   iconNode: React.ReactNode
   iconColor: string
   indent?: 0 | 1 | 2
+  depth?: number
   isFolder?: boolean
   isOpen?: boolean
   isActive?: boolean
@@ -17,6 +18,7 @@ export default function TreeItem({
   iconNode,
   iconColor,
   indent = 0,
+  depth = 1,
   isFolder = false,
   isOpen = false,
   isActive = false,
@@ -40,6 +42,7 @@ export default function TreeItem({
       onClick={onClick}
       role="treeitem"
       tabIndex={0}
+      aria-level={depth}
       aria-expanded={isFolder ? isOpen : undefined}
       aria-selected={!isFolder ? isActive : undefined}
       title={collapsed ? label : undefined}

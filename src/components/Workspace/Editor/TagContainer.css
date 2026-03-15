@@ -13,12 +13,6 @@
   padding: 4px 8px;
   border-radius: 12px;
   transition: all 0.2s;
-  cursor: pointer;
-}
-
-.tag:hover {
-  border-color: var(--accent-primary);
-  color: var(--accent-primary);
 }
 
 .tag::before {

@@ -108,3 +108,19 @@ body {
   0%   { opacity: 0; transform: scale(1.01); }
   100% { opacity: 1; transform: scale(1); }
 }
+
+/* Skip / shorten animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  #root::before {
+    animation: none;
+    opacity: 0;
+  }
+  #root > * {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .view-enter {
+    animation: none;
+  }
+}

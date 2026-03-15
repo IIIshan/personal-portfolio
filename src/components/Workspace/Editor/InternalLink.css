@@ -1,7 +1,10 @@
 .internal-link {
   color: var(--fg-primary);
   text-decoration: none;
+  border: none;
   border-bottom: 1px solid var(--border-main);
+  background: none;
+  font: inherit;
   transition: all 0.2s ease;
   cursor: pointer;
   padding: 0 2px;
@@ -26,4 +29,9 @@
 .internal-link:hover {
   color: var(--fg-pure);
   border-bottom-color: var(--fg-pure);
+}
+
+.internal-link:focus-visible {
+  outline: 1px solid var(--accent-primary);
+  outline-offset: 2px;
 }

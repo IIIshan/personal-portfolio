@@ -98,10 +98,25 @@ export const PROJECTS: ProjectEntry[] = [
 
 // ─── Blog ─────────────────────────────────────────────────────────────────────
 
+export type BlogBlock =
+  | { type: 'h2'; text: string }
+  | { type: 'h3'; text: string }
+  | { type: 'p'; text: string }
+  | { type: 'code'; lang: string; code: string }
+  | { type: 'ul'; items: string[] }
+  | { type: 'ol'; items: string[] }
+  | { type: 'blockquote'; text: string }
+  | { type: 'callout'; label: string; text: string }
+  | { type: 'hr' }
+
 export interface BlogEntry {
   file: string
   displayTitle: string
   description: string
+  date: string
+  readingTime: string
+  tags: string[]
+  body: BlogBlock[]
 }
 
 export const BLOG_INTRO =
@@ -109,19 +124,22 @@ export const BLOG_INTRO =
 
 export const BLOG: BlogEntry[] = [
   {
-    file: 'zero_downtime_deploys.md',
-    displayTitle: 'Zero Downtime Deploys',
-    description: 'Blue/green and canary rollout strategies on Kubernetes.',
-  },
-  {
     file: 'docker_deep_dive.md',
     displayTitle: 'Docker Deep Dive',
-    description: 'Layer caching, multi-stage builds, and image size optimization.',
+    description: 'From Dockerfile to production — layers, networking internals, Compose, multi-stage builds, and the kernel primitives that make it all work.',
+    date: '2025-12-01',
+    readingTime: '18 min',
+    tags: ['docker', 'containers', 'networking', 'linux'],
+    body: [], // populated below
   },
   {
-    file: 'k8s_pitfalls.md',
-    displayTitle: 'K8s Pitfalls',
-    description: 'Lessons learned from real cluster failures — and how to survive them.',
+    file: 'linux_inodes.md',
+    displayTitle: 'Linux Internals: Inodes',
+    description: 'How Linux tracks every file — inode structure, path resolution, direct/indirect pointers, inode exhaustion, and how Git and CDNs avoid it.',
+    date: '2025-12-08',
+    readingTime: '12 min',
+    tags: ['linux', 'filesystem', 'internals'],
+    body: [], // populated below
   },
 ]
 

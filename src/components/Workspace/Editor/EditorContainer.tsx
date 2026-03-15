@@ -6,6 +6,7 @@ import {
 import { FILE_VIEW_MAP } from '../../../data/fileTree'
 import { TabItem } from '../../../App'
 import Frontmatter from './Frontmatter'
+import InternalLink from './InternalLink'
 import ProjectCard from './ProjectCard'
 import TagContainer from './TagContainer'
 import './EditorContainer.css'
@@ -13,6 +14,7 @@ import './EditorContainer.css'
 interface EditorContainerProps {
   activeFile: string
   openTabs: TabItem[]
+  isNotFound?: boolean
 }
 
 // ─── Stack YAML renderer ──────────────────────────────────────────────────────
@@ -47,6 +49,7 @@ function ProfileView() {
       <TagContainer tags={TAGS} />
       <Frontmatter entries={FRONTMATTER} />
       <p>{BIO}</p>
+      <p>See my full <InternalLink label="tech_stack" targetPath="/stack" /> for details.</p>
 
       <h2>Work Experience</h2>
       {WORK.map((entry) => (
@@ -111,31 +114,93 @@ function ProjectsView({ fileId }: { fileId: string }) {
   )
 }
 
+// ─── Blog Body Renderer ───────────────────────────────────────────────────────
+function BlogBody({ blocks }: { blocks: import('../../../data/content').BlogBlock[] }) {
+  return (
+    <>
+      {blocks.map((block, i) => {
+        switch (block.type) {
+          case 'h2':
+            return <h2 key={i}>{block.text}</h2>
+          case 'h3':
+            return <h3 key={i}>{block.text}</h3>
+          case 'p':
+            return <p key={i}>{block.text}</p>
+          case 'code':
+            return (
+              <pre key={i} data-lang={block.lang}>
+                <code>{block.code}</code>
+              </pre>
+            )
+          case 'ul':
+            return (
+              <ul key={i}>
+                {block.items.map((item, j) => <li key={j}>{item}</li>)}
+              </ul>
+            )
+          case 'ol':
+            return (
+              <ol key={i}>
+                {block.items.map((item, j) => <li key={j}>{item}</li>)}
+              </ol>
+            )
+          case 'blockquote':
+            return <blockquote key={i}>{block.text}</blockquote>
+          case 'callout':
+            return (
+              <div key={i} className="blog-callout">
+                <span className="callout-label">{block.label}</span>
+                <p>{block.text}</p>
+              </div>
+            )
+          case 'hr':
+            return <hr key={i} />
+          default:
+            return null
+        }
+      })}
+    </>
+  )
+}
+
 // ─── Blog View ────────────────────────────────────────────────────────────────
 function BlogView({ fileId }: { fileId: string }) {
   const blogMap: Record<string, number> = {
-    'zero_downtime_deploys.md': 0,
-    'docker_deep_dive.md': 1,
-    'k8s_pitfalls.md': 2,
+    'docker_deep_dive.md': 0,
+    'linux_inodes.md': 1,
   }
   const post = BLOG[blogMap[fileId]]
   if (!post) return <EmptyView fileId={fileId} />
 
   return (
-    <article className="markdown-body" aria-label={post.displayTitle}>
-      <div className="frontmatter">
-        <div className="frontmatter-line">
-          <span className="frontmatter-key">file:</span>
-          <span className="frontmatter-val">"{post.file}"</span>
-        </div>
-        <div className="frontmatter-line">
-          <span className="frontmatter-key">status:</span>
-          <span className="frontmatter-val">"draft"</span>
-        </div>
-      </div>
+    <article className="markdown-body blog-body" aria-label={post.displayTitle}>
+      <Frontmatter entries={[
+        { key: 'file', value: post.file },
+        { key: 'date', value: post.date },
+        { key: 'reading_time', value: post.readingTime },
+        { key: 'status', value: 'published' },
+      ]} />
       <h1 className="h1--blog">{post.displayTitle}</h1>
-      <p>{post.description}</p>
-      <p className="coming-soon">// Full post coming soon.</p>
+      <TagContainer tags={post.tags} />
+      <p className="blog-description">{post.description}</p>
+      {post.body.length > 0 ? (
+        <BlogBody blocks={post.body} />
+      ) : (
+        <p className="coming-soon">// Full post coming soon.</p>
+      )}
+    </article>
+  )
+}
+
+// ─── Not Found View ───────────────────────────────────────────────────────────
+function NotFoundView() {
+  return (
+    <article className="markdown-body empty-view" aria-label="Page not found">
+      <div className="not-found">
+        <h1 className="h1--blog">404</h1>
+        <p className="empty-hint">// File not found in the archive.</p>
+        <a href="/" className="contact-link">cd /profile.md</a>
+      </div>
     </article>
   )
 }
@@ -152,10 +217,20 @@ function EmptyView({ fileId }: { fileId?: string }) {
 }
 
 // ─── Main EditorContainer ─────────────────────────────────────────────────────
-export default function EditorContainer({ activeFile, openTabs }: EditorContainerProps) {
+export default function EditorContainer({ activeFile, openTabs, isNotFound }: EditorContainerProps) {
+  if (isNotFound) {
+    return (
+      <div className="editor-container" id="editor-content">
+        <div className="view-enter">
+          <NotFoundView />
+        </div>
+      </div>
+    )
+  }
+
   if (openTabs.length === 0) {
     return (
-      <div className="editor-container">
+      <div className="editor-container" id="editor-content">
         <EmptyView />
       </div>
     )
@@ -174,7 +249,7 @@ export default function EditorContainer({ activeFile, openTabs }: EditorContaine
   }
 
   return (
-    <div className="editor-container">
+    <div className="editor-container" id="editor-content">
       {/* key forces remount on file change, triggering viewEnter animation */}
       <div key={activeFile} className="view-enter">
         {renderView()}

@@ -9,8 +9,13 @@
   opacity: 0.5;
 }
 
-.gl-1 { left: calc(var(--sidebar-width) + 40px); }
+.gl-1 { left: calc(var(--sidebar-width) + 40px); transition: left 0.2s ease; }
 .gl-2 { right: 40px; }
+
+/* When sidebar is collapsed, shift the left guide line to match */
+#root:has(#sidebar.sidebar--collapsed) .gl-1 {
+  left: calc(48px + 40px);
+}
 
 /* P0: Guide lines render off-screen on mobile — hide them */
 @media (max-width: 767px) {

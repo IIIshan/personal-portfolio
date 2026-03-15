@@ -9,19 +9,20 @@ interface WorkspaceProps {
   tabs: TabItem[]
   onTabClick: (fileId: string) => void
   onTabClose: (fileId: string) => void
+  isNotFound?: boolean
 }
 
-export default function Workspace({ activeFile, tabs, onTabClick, onTabClose }: WorkspaceProps) {
+export default function Workspace({ activeFile, tabs, onTabClick, onTabClose, isNotFound }: WorkspaceProps) {
   return (
     <main id="workspace">
-      <a href="#workspace" className="skip-link">Skip to content</a>
+      <a href="#editor-content" className="skip-link">Skip to content</a>
       <Tabs
         tabs={tabs}
         activeFile={activeFile}
         onTabClick={onTabClick}
         onTabClose={onTabClose}
       />
-      <EditorContainer activeFile={activeFile} openTabs={tabs} />
+      <EditorContainer activeFile={activeFile} openTabs={tabs} isNotFound={isNotFound} />
       <StatusBar activeFile={activeFile} />
     </main>
   )

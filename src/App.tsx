@@ -17,7 +17,9 @@ export default function App() {
   const navigate = useNavigate()
 
   // Derive the active file from the current URL, fall back to default
-  const activeFile = PATH_TO_FILE_ID[location.pathname] ?? DEFAULT_FILE
+  const knownPath = PATH_TO_FILE_ID[location.pathname]
+  const isNotFound = !knownPath && location.pathname !== '/'
+  const activeFile = knownPath ?? DEFAULT_FILE
 
   const [tabs, setTabs] = useState<TabItem[]>([{ id: DEFAULT_FILE, label: DEFAULT_FILE }])
 
@@ -69,6 +71,7 @@ export default function App() {
         tabs={tabs}
         onTabClick={handleTabClick}
         onTabClose={handleTabClose}
+        isNotFound={isNotFound}
       />
     </>
   )

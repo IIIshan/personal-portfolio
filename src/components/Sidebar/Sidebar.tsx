@@ -80,21 +80,24 @@ function renderTree(
             iconNode={iconNode}
             iconColor={iconColor}
             indent={indent}
+            depth={depth + 1}
             isFolder
             isOpen={isOpen}
             collapsed={collapsed}
             onClick={() => toggleFolder(node.id)}
           />
           {isOpen && node.children && (
-            renderTree(
-              node.children,
-              Math.min(depth + 1, 2),
-              openFolders,
-              activeFile,
-              toggleFolder,
-              onFileSelect,
-              collapsed
-            )
+            <div role="group">
+              {renderTree(
+                node.children,
+                Math.min(depth + 1, 2),
+                openFolders,
+                activeFile,
+                toggleFolder,
+                onFileSelect,
+                collapsed
+              )}
+            </div>
           )}
         </div>
       )
@@ -107,6 +110,7 @@ function renderTree(
         iconNode={iconNode}
         iconColor={iconColor}
         indent={indent}
+        depth={depth + 1}
         isActive={activeFile === node.id}
         collapsed={collapsed}
         onClick={() => onFileSelect(node.id, node.path ?? '/')}

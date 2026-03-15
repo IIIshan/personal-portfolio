@@ -89,15 +89,25 @@
 /* ─── Mobile overlay drawer ──────────────────────────────────────────────── */
 
 @media (max-width: 767px) {
-  /* When open on mobile: fixed overlay instead of inline */
-  #sidebar.sidebar--mobile-open {
+  /* Mobile: sidebar is always fixed off-screen; slides in when open */
+  #sidebar {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     width: var(--sidebar-width);
     z-index: 100;
+    transform: translateX(-100%);
     transition: transform 0.25s ease-out;
+  }
+
+  #sidebar.sidebar--mobile-open {
+    transform: translateX(0);
+  }
+
+  /* Collapsed state doesn't apply on mobile */
+  #sidebar.sidebar--collapsed {
+    width: var(--sidebar-width);
   }
 }
 

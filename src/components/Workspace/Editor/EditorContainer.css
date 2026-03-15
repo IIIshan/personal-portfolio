@@ -183,6 +183,89 @@
   color: var(--fg-muted);
 }
 
+/* ─── Blog body styles ───────────────────────────────────────────────────── */
+.blog-body h3 {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-primary);
+  margin-top: 40px;
+  margin-bottom: 16px;
+}
+
+.blog-body h3::before {
+  content: '#';
+  color: var(--accent-c);
+  margin-right: 8px;
+  font-weight: 400;
+}
+
+.blog-description {
+  font-style: italic;
+  color: var(--fg-secondary);
+  border-left: 2px solid var(--accent-c);
+  padding-left: 16px;
+  margin-bottom: 32px;
+}
+
+.blog-body hr {
+  border: none;
+  border-top: 1px solid var(--border-main);
+  margin: 40px 0;
+}
+
+.blog-body ol {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 24px;
+  counter-reset: blog-ol;
+}
+
+.blog-body ol li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 12px;
+  color: var(--fg-secondary);
+  font-weight: 300;
+  counter-increment: blog-ol;
+}
+
+.blog-body ol li::before {
+  content: counter(blog-ol) '.';
+  position: absolute;
+  left: 0;
+  color: var(--accent-c);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.blog-callout {
+  background: var(--bg-code);
+  border: 1px solid var(--border-main);
+  border-left: 3px solid var(--accent-a);
+  padding: 16px 20px;
+  margin: 24px 0;
+  border-radius: 2px;
+}
+
+.blog-callout .callout-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent-a);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.blog-callout p {
+  margin-bottom: 0;
+  font-size: 13px;
+}
+
 /* ─── Stack YAML syntax colors ───────────────────────────────────────────── */
 .stack-yaml {
   background-color: var(--bg-code);
@@ -221,6 +304,24 @@
   font-size: 12px;
   color: var(--fg-muted);
   text-align: center;
+}
+
+/* 404 Not Found */
+.not-found {
+  text-align: center;
+}
+
+.not-found h1 {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.not-found .empty-hint {
+  margin-bottom: 24px;
+}
+
+.not-found .contact-link {
+  font-size: 13px;
 }
 
 /* View-enter animation — triggered by React remounting on key change */

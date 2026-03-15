@@ -42,9 +42,8 @@ export const FILE_TREE: FileNode[] = [
         defaultOpen: false,
         iconName: 'pen',
         children: [
-          { id: 'zero_downtime_deploys.md', label: 'zero_downtime_deploys.md', path: '/blog/zero_downtime_deploys', iconName: 'filetext' },
           { id: 'docker_deep_dive.md',      label: 'docker_deep_dive.md',      path: '/blog/docker_deep_dive',      iconName: 'filetext' },
-          { id: 'k8s_pitfalls.md',          label: 'k8s_pitfalls.md',          path: '/blog/k8s_pitfalls',          iconName: 'filetext' },
+          { id: 'linux_inodes.md',           label: 'linux_inodes.md',           path: '/blog/linux_inodes',           iconName: 'filetext' },
         ],
       },
     ],
@@ -61,9 +60,8 @@ export const FILE_VIEW_MAP: Record<string, ViewType> = {
   'ci_pipeline.md':             'project',
   'k8s_monitor.md':             'project',
   'iac_modules.md':             'project',
-  'zero_downtime_deploys.md':   'blog',
   'docker_deep_dive.md':        'blog',
-  'k8s_pitfalls.md':            'blog',
+  'linux_inodes.md':            'blog',
 }
 
 // Reverse map: URL pathname → file id (for deriving activeFile from URL)
@@ -73,7 +71,6 @@ export const PATH_TO_FILE_ID: Record<string, string> = {
   '/projects/ci_pipeline':           'ci_pipeline.md',
   '/projects/k8s_monitor':           'k8s_monitor.md',
   '/projects/iac_modules':           'iac_modules.md',
-  '/blog/zero_downtime_deploys':     'zero_downtime_deploys.md',
   '/blog/docker_deep_dive':          'docker_deep_dive.md',
-  '/blog/k8s_pitfalls':              'k8s_pitfalls.md',
+  '/blog/linux_inodes':              'linux_inodes.md',
 }

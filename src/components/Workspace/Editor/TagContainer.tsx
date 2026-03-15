@@ -12,10 +12,6 @@ export default function TagContainer({ tags }: TagContainerProps) {
           className="tag"
           key={tag}
           role="listitem"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') e.preventDefault()
-          }}
         >
           {tag}
         </span>
