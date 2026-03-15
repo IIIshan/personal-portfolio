@@ -485,8 +485,60 @@ export const CONTACT: ContactLink[] = [
   { label: 'ishan@proton.me',             url: 'mailto:ishan@proton.me' },
 ]
 
-// ─── Quote ────────────────────────────────────────────────────────────────────
+// ─── Quotes ───────────────────────────────────────────────────────────────────
 
-export const QUOTE =
-  '"Automate everything once. Then automate the automation. ' +
-  'The goal is a system that runs itself."'
+export interface Quote {
+  text: string
+  author: string
+}
+
+export const QUOTES: Quote[] = [
+  // ── Programming & Software ─────────────────────────────────────────────────
+  { text: 'Talk is cheap. Show me the code.', author: 'Linus Torvalds' },
+  { text: 'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.', author: 'Martin Fowler' },
+  { text: 'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.', author: 'Brian Kernighan' },
+  { text: 'The first 90% of the code accounts for the first 90% of the development time. The remaining 10% of the code accounts for the other 90% of the development time.', author: 'Tom Cargill' },
+  { text: "Nine people can't make a baby in a month.", author: 'Fred Brooks' },
+  { text: 'Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live.', author: 'Martin Golding' },
+  { text: 'Optimism is an occupational hazard of programming. Feedback is the treatment.', author: 'Kent Beck' },
+  { text: 'The function of good software is to make the complex appear to be simple.', author: 'Grady Booch' },
+  { text: 'Given enough eyeballs, all bugs are shallow.', author: 'Linus Torvalds' },
+  { text: 'There are only two kinds of languages: the ones people complain about and the ones nobody uses.', author: 'Bjarne Stroustrup' },
+  { text: "It's all talk until the code runs.", author: 'Ward Cunningham' },
+  { text: 'Simplicity is prerequisite for reliability.', author: 'Edsger Dijkstra' },
+  { text: 'Programs must be written for people to read, and only incidentally for machines to execute.', author: 'Harold Abelson' },
+  { text: 'The best error message is the one that never shows up.', author: 'Thomas Fuchs' },
+  { text: 'Make it work, make it right, make it fast.', author: 'Kent Beck' },
+  { text: "Some people, when confronted with a problem, think 'I know, I'll use regular expressions.' Now they have two problems.", author: 'Jamie Zawinski' },
+  { text: 'The most disastrous thing that you can ever learn is your first programming language.', author: 'Alan Kay' },
+  { text: 'Walking on water and developing software from a specification are easy if both are frozen.', author: 'Edward V Berard' },
+  { text: 'When in doubt, use brute force.', author: 'Ken Thompson' },
+  { text: "I'm not a great programmer. I'm just a good programmer with great habits.", author: 'Kent Beck' },
+  { text: 'People think that computer science is the art of geniuses but the actual reality is the opposite, just many people doing things that build on each other, like a wall of mini stones.', author: 'Donald Knuth' },
+  { text: 'Most good programmers do programming not because they expect to get paid or get adulation by the public, but because it is fun to program.', author: 'Linus Torvalds' },
+  { text: 'You can use an eraser on the drafting table or a sledgehammer on the construction site.', author: 'Frank Lloyd Wright' },
+  { text: 'Programming is the art of telling another human what one wants the computer to do.', author: 'Donald Knuth' },
+  { text: "The cheapest, fastest, and most reliable components are those that aren't there.", author: 'Gordon Bell' },
+  { text: 'Deleted code is debugged code.', author: 'Jeff Sickel' },
+  { text: 'Unix is simple. It just takes a genius to understand its simplicity.', author: 'Dennis Ritchie' },
+  { text: 'First, solve the problem. Then, write the code.', author: 'John Johnson' },
+  { text: "Code is like humor. When you have to explain it, it's bad.", author: 'Cory House' },
+  { text: "If debugging is the process of removing software bugs, then programming must be the process of putting them in.", author: 'Edsger Dijkstra' },
+
+  // ── Science, Engineering & General ─────────────────────────────────────────
+  { text: 'Any sufficiently advanced technology is indistinguishable from magic.', author: 'Arthur C. Clarke' },
+  { text: 'A clever person solves a problem. A wise person avoids it.', author: 'Albert Einstein' },
+  { text: "A ship in port is safe, but that's not what ships are built for.", author: 'Grace Hopper' },
+  { text: "In theory, theory and practice are the same. In practice, they're not.", author: 'Yogi Berra' },
+  { text: 'The best way to predict the future is to invent it.', author: 'Alan Kay' },
+  { text: 'Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away.', author: 'Antoine de Saint-Exupery' },
+  { text: 'We are what we repeatedly do. Excellence, then, is not an act, but a habit.', author: 'Aristotle' },
+  { text: 'If I have seen further, it is by standing on the shoulders of giants.', author: 'Isaac Newton' },
+  { text: 'Measure what is measurable, and make measurable what is not so.', author: 'Galileo Galilei' },
+  { text: 'In God we trust. All others must bring data.', author: 'W. Edwards Deming' },
+  { text: 'The only way to go fast is to go well.', author: 'Robert C. Martin' },
+  { text: 'The important thing is not to stop questioning. Curiosity has its own reason for existing.', author: 'Albert Einstein' },
+  { text: 'Science is what we understand well enough to explain to a computer. Art is everything else we do.', author: 'Donald Knuth' },
+  { text: "The advance of technology is based on making it fit in so that you don't really even notice it, so it's part of everyday life.", author: 'Bill Gates' },
+  { text: 'Automate everything once. Then automate the automation. The goal is a system that runs itself.', author: 'Unknown' },
+]

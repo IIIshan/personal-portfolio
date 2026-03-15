@@ -1,7 +1,7 @@
 import {
   FRONTMATTER, HERO_TITLE, TAGS, BIO,
   WORK, PROJECTS, BLOG, STACK,
-  CONTACT, QUOTE,
+  CONTACT, QUOTES,
 } from '../../../data/content'
 import { FILE_VIEW_MAP } from '../../../data/fileTree'
 import { TabItem } from '../../../App'
@@ -43,6 +43,7 @@ function StackYaml() {
 
 // ─── Profile View ─────────────────────────────────────────────────────────────
 function ProfileView() {
+  const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)]
   return (
     <article className="markdown-body" aria-label="Ishan Rana — Profile">
       <h1 className="h1--profile">{HERO_TITLE}</h1>
@@ -73,7 +74,10 @@ function ProfileView() {
         ))}
       </ul>
 
-      <blockquote>{QUOTE}</blockquote>
+      <blockquote>
+        "{quote.text}"
+        <footer>— {quote.author}</footer>
+      </blockquote>
     </article>
   )
 }
@@ -114,6 +118,18 @@ function ProjectsView({ fileId }: { fileId: string }) {
   )
 }
 
+// ─── Linkify utility — auto-detects URLs in text and wraps them in <a> ────────
+function linkify(text: string) {
+  const urlPattern = /(https?:\/\/[^\s)]+)/g
+  const parts = text.split(urlPattern)
+  if (parts.length === 1) return text
+  return parts.map((part, i) =>
+    /^https?:\/\//.test(part)
+      ? <a key={i} href={part} target="_blank" rel="noreferrer">{part}</a>
+      : part
+  )
+}
+
 // ─── Blog Body Renderer ───────────────────────────────────────────────────────
 function BlogBody({ blocks }: { blocks: import('../../../data/content').BlogBlock[] }) {
   return (
@@ -125,7 +141,7 @@ function BlogBody({ blocks }: { blocks: import('../../../data/content').BlogBloc
           case 'h3':
             return <h3 key={i}>{block.text}</h3>
           case 'p':
-            return <p key={i}>{block.text}</p>
+            return <p key={i}>{linkify(block.text)}</p>
           case 'code':
             return (
               <pre key={i} data-lang={block.lang}>
@@ -135,13 +151,13 @@ function BlogBody({ blocks }: { blocks: import('../../../data/content').BlogBloc
           case 'ul':
             return (
               <ul key={i}>
-                {block.items.map((item, j) => <li key={j}>{item}</li>)}
+                {block.items.map((item, j) => <li key={j}>{linkify(item)}</li>)}
               </ul>
             )
           case 'ol':
             return (
               <ol key={i}>
-                {block.items.map((item, j) => <li key={j}>{item}</li>)}
+                {block.items.map((item, j) => <li key={j}>{linkify(item)}</li>)}
               </ol>
             )
           case 'blockquote':
