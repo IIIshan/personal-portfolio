@@ -133,12 +133,16 @@ export interface StackEntry {
 }
 
 export const STACK: StackEntry[] = [
-  { key: 'languages', values: ['Python', 'JavaScript', 'Java'] },
-  { key: 'frontend',  values: ['React', 'Next.js', 'Node.js'] },
-  { key: 'devops',    values: ['Docker', 'Kubernetes', 'Terraform', 'Jenkins', 'GitHub Actions'] },
-  { key: 'cloud',     values: ['AWS'] },
-  { key: 'os',        values: ['Linux'] },
-  { key: 'ci_cd',     values: ['GitHub Actions', 'Jenkins', 'CI/CD Pipelines'] },
+  { key: 'languages',   values: ['Python', 'Go', 'JavaScript', 'TypeScript', 'Bash'] },
+  { key: 'backend',     values: ['FastAPI', 'Express.js'] },
+  { key: 'databases',   values: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'SQLite'] },
+  { key: 'containers',  values: ['Docker', 'Docker Compose', 'Kubernetes'] },
+  { key: 'cloud',       values: ['AWS', 'DigitalOcean'] },
+  { key: 'ci_cd',       values: ['GitHub Actions', 'Jenkins', 'GitLab CI'] },
+  { key: 'iac',         values: ['Terraform', 'Ansible'] },
+  { key: 'monitoring',  values: ['Prometheus', 'Grafana'] },
+  { key: 'web_servers', values: ['Nginx', 'Caddy', 'Apache', 'Traefik'] },
+  { key: 'os_tools',    values: ['Linux (Ubuntu/Debian)', 'Linux (CentOS/RHEL)', 'Git', 'Vim/Neovim', 'VS Code'] },
 ]
 
 // ─── Contact ──────────────────────────────────────────────────────────────────
