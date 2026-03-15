@@ -1,0 +1,110 @@
+/* Fonts loaded via <link> in index.html — no @import needed here */
+
+:root {
+  --bg-void: #000000;
+  --bg-base: #030303;
+  --bg-surface: #080808;
+  --bg-code: #0a0a0a;
+  --fg-pure: #ffffff;
+  --fg-primary: #e0e0e0;
+  --fg-secondary: #7a7a7a;
+  --fg-muted: #404040;
+  --fg-faint: #222222;
+  --border-main: #111111;
+  --border-highlight: #2a2a2a;
+
+  /* Cyberpunk Mono accent palette */
+  --accent-primary: #00ff9f;
+  --accent-a:       #00cfff;
+  --accent-b:       #ff6b35;
+  --accent-c:       #bf7fff;
+
+  --font-sans: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --sidebar-width: 280px;
+  --content-max-width: 760px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 1px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--fg-muted);
+}
+
+::selection {
+  background: var(--fg-pure);
+  color: var(--bg-base);
+}
+
+body {
+  height: 100%;
+  background-color: var(--bg-void);
+  color: var(--fg-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  position: relative;
+}
+
+/*
+ * Cinema reveal animation is placed on a pseudo-overlay INSTEAD of #root.
+ * This avoids the filter:blur() stacking context trap that breaks
+ * position:fixed children (guide lines) during the animation.
+ */
+#root::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: var(--bg-void);
+  z-index: 9999;
+  pointer-events: none;
+  animation: cinemaRevealOverlay 2.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes cinemaRevealOverlay {
+  0%   { opacity: 1; }
+  60%  { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; }
+}
+
+/* The content itself fades in cleanly without filter */
+#root > * {
+  animation: contentFadeIn 2s cubic-bezier(0.19, 1, 0.22, 1) 0.4s both;
+}
+
+@keyframes contentFadeIn {
+  0%   { opacity: 0; transform: scale(1.01); }
+  100% { opacity: 1; transform: scale(1); }
+}

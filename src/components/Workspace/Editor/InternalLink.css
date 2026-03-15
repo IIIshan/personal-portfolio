@@ -1,0 +1,29 @@
+.internal-link {
+  color: var(--fg-primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-main);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  padding: 0 2px;
+}
+
+.internal-link::before {
+  content: '[[';
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  margin-right: 1px;
+}
+
+.internal-link::after {
+  content: ']]';
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  margin-left: 1px;
+}
+
+.internal-link:hover {
+  color: var(--fg-pure);
+  border-bottom-color: var(--fg-pure);
+}

@@ -1,0 +1,95 @@
+.tabs {
+  height: 40px;
+  border-bottom: 1px solid var(--border-main);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 1;
+  background: var(--bg-base);
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+
+.tabs--empty {
+  background: var(--bg-base);
+}
+
+.tab {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-secondary);
+  padding: 0 16px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid var(--border-main);
+  border-left: 1px solid transparent;
+  border-top: 2px solid transparent;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.tab:first-child {
+  border-left: 1px solid var(--border-main);
+}
+
+.tab:hover {
+  color: var(--fg-primary);
+}
+
+.tab.active {
+  color: var(--accent-primary);
+  background: var(--bg-code);
+  border-top: 2px solid var(--accent-primary);
+}
+
+/* Close button */
+.tab .close {
+  margin-left: 10px;
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0 2px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab:hover .close {
+  opacity: 0.5;
+}
+
+.tab.active .close {
+  opacity: 0.4;
+}
+
+.tab .close:hover {
+  opacity: 1 !important;
+}
+
+/* ─── Mobile responsive ──────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  /* P0: Close buttons invisible on touch — always show on active tab */
+  .tab.active .close {
+    opacity: 0.5;
+  }
+
+  /* P3: Tighter tab padding */
+  .tab {
+    padding: 0 10px;
+  }
+
+  /* P3: Horizontal scroll optimization */
+  .tabs {
+    touch-action: pan-x;
+  }
+}

@@ -1,0 +1,44 @@
+#workspace {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-base);
+  position: relative;
+  overflow: hidden;
+}
+
+#workspace::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(to right, var(--bg-surface) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--bg-surface) 1px, transparent 1px);
+  background-size: 100px 100px;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Skip-to-content link — visually hidden until focused */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 9999;
+  padding: 8px 16px;
+  background: var(--bg-surface);
+  color: var(--accent-primary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  border: 1px solid var(--accent-primary);
+  text-decoration: none;
+  transition: top 0.1s;
+}
+
+.skip-link:focus {
+  top: 0;
+}

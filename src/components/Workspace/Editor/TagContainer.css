@@ -1,0 +1,27 @@
+.tag-container {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-secondary);
+  border: 1px solid var(--border-main);
+  padding: 4px 8px;
+  border-radius: 12px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.tag:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+.tag::before {
+  content: '#';
+  color: var(--accent-a);
+}

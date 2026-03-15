@@ -1,0 +1,40 @@
+.frontmatter {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-muted);
+  border-bottom: 1px dashed var(--border-main);
+  padding-bottom: 16px;
+  margin-bottom: 40px;
+}
+
+.frontmatter-line {
+  display: flex;
+  margin-bottom: 4px;
+}
+
+.frontmatter-key {
+  width: 100px;
+  color: var(--accent-a);
+}
+
+.frontmatter-val {
+  color: var(--fg-primary);
+}
+
+/* ─── Mobile responsive ──────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  /* P2: Stack key/val vertically */
+  .frontmatter-line {
+    flex-direction: column;
+  }
+
+  .frontmatter-key {
+    width: auto;
+    margin-bottom: 2px;
+  }
+
+  /* P3: Tighter bottom margin */
+  .frontmatter {
+    margin-bottom: 24px;
+  }
+}

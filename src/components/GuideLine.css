@@ -1,0 +1,20 @@
+.guide-line-v {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border-main);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.gl-1 { left: calc(var(--sidebar-width) + 40px); }
+.gl-2 { right: 40px; }
+
+/* P0: Guide lines render off-screen on mobile — hide them */
+@media (max-width: 767px) {
+  .guide-line-v {
+    display: none;
+  }
+}

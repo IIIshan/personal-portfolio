@@ -1,0 +1,40 @@
+.project-card {
+  border: 1px solid var(--border-main);
+  padding: 24px;
+  margin-bottom: 24px;
+  transition: border-color 0.2s;
+}
+
+.project-card:hover {
+  border-color: var(--accent-b);
+}
+
+.project-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-muted);
+  margin-bottom: 12px;
+}
+
+h3.project-title {
+  font-size: 16px;
+  color: var(--fg-pure);
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* ─── Mobile responsive ──────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  /* P2: Stack project meta vertically */
+  .project-meta {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* P2: Tighter card padding */
+  .project-card {
+    padding: 16px;
+  }
+}
