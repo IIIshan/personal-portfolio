@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────────────────────
 # deploy.sh — Pull latest code and redeploy. Run after each git push.
-# Usage:  bash /opt/portfolio/scripts/deploy.sh
+# Run as the deploy user:  bash /home/deploy/ishanrana.dev/scripts/deploy.sh
 # ─────────────────────────────────────────────────────────────────────────────
 set -euo pipefail
 
-APP_DIR="/opt/portfolio"
+APP_DIR="/home/deploy/ishanrana.dev"
 cd "$APP_DIR"
 
 echo ""
