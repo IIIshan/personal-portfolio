@@ -33,6 +33,7 @@ All personal content lives in **one TypeScript file** (`src/data/content.ts`). T
 | Styling     | Plain CSS with custom properties    |
 | Fonts       | Inter (body), JetBrains Mono (UI)   |
 | Dev env     | Docker + Docker Compose             |
+| Production  | Caddy 2 (auto HTTPS + static serve) |
 
 ## Project Structure
 
@@ -151,7 +152,59 @@ Edit the CSS custom properties in [`src/index.css`](src/index.css):
 
 ## Deployment
 
-Production deployment configuration (multi-stage Docker build, Nginx, Caddy reverse proxy with auto HTTPS) is planned but not yet included. See project issues for status.
+Production runs as a single Docker container using [Caddy](https://caddyserver.com/) for static file serving and automatic HTTPS via Let's Encrypt.
+
+### Architecture
+
+```
+Internet → Cloudflare DNS → VPS (206.189.131.132)
+                              │
+                         ┌────▼────┐
+                         │  Caddy  │  ← serves static files + auto HTTPS
+                         │  :443   │     (runs inside Docker container)
+                         └─────────┘
+```
+
+Nothing runs on the VPS host except Docker. The build, Caddy, and SSL provisioning all happen inside containers.
+
+### Prerequisites
+
+- A VPS running Ubuntu (22.04 or 24.04)
+- A domain with DNS A records pointing to the VPS IP
+- DNS must be set to **DNS only** (not proxied) if using Cloudflare — Caddy needs direct access for Let's Encrypt ACME challenges
+
+### First-Time Setup
+
+SSH into the VPS and run:
+
+```bash
+git clone https://github.com/IIIshan/personal-portfolio.git /opt/portfolio
+cd /opt/portfolio
+bash scripts/setup-vps.sh
+```
+
+The setup script installs Docker, builds the production image, and starts Caddy. SSL certificates are provisioned automatically once DNS propagates.
+
+### Updating
+
+After pushing changes to GitHub:
+
+```bash
+ssh root@<your-vps-ip>
+bash /opt/portfolio/scripts/deploy.sh
+```
+
+This pulls the latest code, rebuilds the Docker image, and restarts the container with zero downtime.
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `Dockerfile` | Multi-stage build: `node:20-alpine` compiles the app → `caddy:2-alpine` serves `dist/` |
+| `Caddyfile` | Static file serving, SPA fallback, gzip, security headers, auto HTTPS |
+| `docker-compose.prod.yml` | Production container config with persistent volumes for SSL certs |
+| `scripts/setup-vps.sh` | One-time VPS bootstrap (installs Docker, clones repo, starts services) |
+| `scripts/deploy.sh` | Repeat deploy (pulls latest code, rebuilds, restarts) |
 
 ## License
 
