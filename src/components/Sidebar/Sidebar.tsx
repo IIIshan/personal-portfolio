@@ -143,7 +143,9 @@ function useIsMobile(): boolean {
 export default function Sidebar({ isOpen = false, onToggle, activeFile, onFileSelect }: SidebarProps) {
   const navigate = useNavigate()
   const isMobile = useIsMobile()
-  const [collapsed, setCollapsed] = useState(() => window.innerWidth < 768)
+  // On mobile: EXPANDED by default (show labels)
+  // On desktop (>= 1024px): COLLAPSED (icons only)
+  const [collapsed, setCollapsed] = useState(() => window.innerWidth >= 1024)
   const [openFolders, setOpenFolders] = useState<Record<string, boolean>>(
     buildInitialOpenState(FILE_TREE)
   )

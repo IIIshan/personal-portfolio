@@ -95,7 +95,8 @@
     top: 0;
     left: 0;
     bottom: 0;
-    width: var(--sidebar-width);
+    width: 85vw;
+    max-width: 320px;
     z-index: 100;
     transform: translateX(-100%);
     transition: transform 0.25s ease-out;
@@ -105,9 +106,10 @@
     transform: translateX(0);
   }
 
-  /* Collapsed state doesn't apply on mobile */
+  /* On mobile, sidebar should be expanded (show labels, not just icons) */
   #sidebar.sidebar--collapsed {
-    width: var(--sidebar-width);
+    width: 85vw;
+    max-width: 320px;
   }
 }
 

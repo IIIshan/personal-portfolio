@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { PATH_TO_FILE_ID } from './data/fileTree'
+import { VAULT_TITLE } from './data/content'
 import GuideLine from './components/GuideLine'
 import Sidebar from './components/Sidebar/Sidebar'
 import Workspace from './components/Workspace/Workspace'
@@ -11,11 +12,22 @@ export interface TabItem {
 }
 
 const DEFAULT_FILE = 'profile.md'
+const MOBILE_BREAKPOINT = 767
 
 export default function App() {
   const location = useLocation()
   const navigate = useNavigate()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= MOBILE_BREAKPOINT)
+
+  // Track mobile state
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   // Derive the active file from the current URL, fall back to default
   const knownPath = PATH_TO_FILE_ID[location.pathname]
@@ -63,24 +75,29 @@ export default function App() {
   return (
     <>
       <GuideLine />
-      <button
-        className="hamburger-menu"
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
-        aria-expanded={sidebarOpen}
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          {sidebarOpen ? (
-            <path d="M6 6l12 12M6 18L18 6" />
-          ) : (
-            <>
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="18" x2="21" y2="18" />
-            </>
-          )}
-        </svg>
-      </button>
+      {isMobile && (
+        <header className="mobile-header">
+          <button
+            className="hamburger-menu"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={sidebarOpen}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {sidebarOpen ? (
+                <path d="M6 6l12 12M6 18L18 6" />
+              ) : (
+                <>
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <line x1="3" y1="12" x2="21" y2="12" />
+                  <line x1="3" y1="18" x2="21" y2="18" />
+                </>
+              )}
+            </svg>
+          </button>
+          <span className="mobile-title">{VAULT_TITLE}</span>
+        </header>
+      )}
       <Sidebar
         isOpen={sidebarOpen}
         onToggle={() => setSidebarOpen(!sidebarOpen)}

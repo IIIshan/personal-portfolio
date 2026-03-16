@@ -79,42 +79,62 @@ html {
   top: 8px;
 }
 
-/* Hamburger menu button - visible only on mobile */
-.hamburger-menu {
+/* Mobile header with hamburger - visible only on mobile */
+.mobile-header {
   display: none;
   position: fixed;
-  top: 12px;
-  left: 12px;
-  z-index: 1001;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
   background: var(--bg-surface);
-  border: 1px solid var(--border-main);
-  border-radius: 6px;
-  padding: 8px;
-  cursor: pointer;
-  color: var(--fg-primary);
-  transition: background-color 0.2s, border-color 0.2s;
+  border-bottom: 1px solid var(--border-main);
+  z-index: 1000;
+  align-items: center;
+  padding: 0 12px;
+  gap: 12px;
 }
 
-.hamburger-menu:hover {
+.mobile-header .hamburger-menu {
+  display: flex;
+  position: static;
+  background: transparent;
+  border: none;
+  padding: 4px;
+}
+
+.mobile-header .hamburger-menu:hover {
   background: var(--bg-base);
-  border-color: var(--accent-primary);
+  border-color: transparent;
 }
 
-.hamburger-menu svg {
-  display: block;
-  width: 24px;
-  height: 24px;
+.mobile-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--fg-secondary);
+  text-transform: uppercase;
 }
 
 @media (max-width: 767px) {
-  .hamburger-menu {
+  .mobile-header {
     display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
   #root {
     padding-top: 0;
+  }
+
+  /* Enable scrolling on mobile for pull-to-refresh */
+  body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .workspace {
+    margin-top: 48px;
   }
 }
 
