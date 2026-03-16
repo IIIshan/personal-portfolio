@@ -10,6 +10,8 @@ import {
 import './Sidebar.css'
 
 interface SidebarProps {
+  isOpen?: boolean
+  onToggle?: () => void
   activeFile: string
   onFileSelect: (fileId: string, path: string) => void
 }
@@ -138,7 +140,7 @@ function useIsMobile(): boolean {
 
 // ─── Sidebar component ────────────────────────────────────────────────────────
 
-export default function Sidebar({ activeFile, onFileSelect }: SidebarProps) {
+export default function Sidebar({ isOpen = false, onToggle, activeFile, onFileSelect }: SidebarProps) {
   const navigate = useNavigate()
   const isMobile = useIsMobile()
   const [collapsed, setCollapsed] = useState(() => window.innerWidth < 768)
@@ -151,7 +153,7 @@ export default function Sidebar({ activeFile, onFileSelect }: SidebarProps) {
   const sidebarRef = useRef<HTMLElement>(null)
   const previousFocusRef = useRef<HTMLElement | null>(null)
 
-  const isDrawerOpen = isMobile && !collapsed
+  const isDrawerOpen = isMobile && (isOpen || !collapsed)
 
   const toggleFolder = (id: string) => {
     setOpenFolders((prev) => ({ ...prev, [id]: !prev[id] }))
@@ -160,7 +162,8 @@ export default function Sidebar({ activeFile, onFileSelect }: SidebarProps) {
   // Close the drawer (mobile only)
   const closeDrawer = useCallback(() => {
     setCollapsed(true)
-  }, [])
+    onToggle?.()
+  }, [onToggle])
 
   // File select wrapper — auto-close drawer on mobile
   const handleFileSelect = useCallback((fileId: string, path: string) => {
@@ -263,7 +266,13 @@ export default function Sidebar({ activeFile, onFileSelect }: SidebarProps) {
             ref={toggleBtnRef}
             className="vault-actions"
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            onClick={() => setCollapsed((c) => !c)}
+            onClick={() => {
+              if (isMobile) {
+                onToggle?.()
+              } else {
+                setCollapsed((c) => !c)
+              }
+            }}
           >
             <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
@@ -272,7 +281,7 @@ export default function Sidebar({ activeFile, onFileSelect }: SidebarProps) {
           </button>
         </div>
 
-        <div className="tree-container" role="tree">
+        <div className="tree-container" role="tree" aria-label="Portfolio files">
           {renderTree(FILE_TREE, 0, openFolders, activeFile, toggleFolder, handleFileSelect, collapsed)}
         </div>
       </aside>

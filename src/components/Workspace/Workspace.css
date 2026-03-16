@@ -42,3 +42,10 @@
 .skip-link:focus {
   top: 0;
 }
+
+/* Mobile: account for hamburger button */
+@media (max-width: 767px) {
+  .workspace {
+    margin-top: 0;
+  }
+}

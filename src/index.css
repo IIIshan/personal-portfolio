@@ -79,6 +79,45 @@ html {
   top: 8px;
 }
 
+/* Hamburger menu button - visible only on mobile */
+.hamburger-menu {
+  display: none;
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 1001;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-main);
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  color: var(--fg-primary);
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.hamburger-menu:hover {
+  background: var(--bg-base);
+  border-color: var(--accent-primary);
+}
+
+.hamburger-menu svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+@media (max-width: 767px) {
+  .hamburger-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #root {
+    padding-top: 0;
+  }
+}
+
 body {
   height: 100%;
   background-color: var(--bg-void);
