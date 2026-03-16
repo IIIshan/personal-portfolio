@@ -14,7 +14,7 @@ interface WorkspaceProps {
 
 export default function Workspace({ activeFile, tabs, onTabClick, onTabClose, isNotFound }: WorkspaceProps) {
   return (
-    <main id="workspace">
+    <main id="main-content" className="workspace">
       <a href="#editor-content" className="skip-link">Skip to content</a>
       <Tabs
         tabs={tabs}

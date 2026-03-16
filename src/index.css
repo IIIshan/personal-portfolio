@@ -7,8 +7,8 @@
   --bg-code: #0a0a0a;
   --fg-pure: #ffffff;
   --fg-primary: #e0e0e0;
-  --fg-secondary: #7a7a7a;
-  --fg-muted: #404040;
+  --fg-secondary: #8a8a8a;
+  --fg-muted: #767676;
   --fg-faint: #222222;
   --border-main: #111111;
   --border-highlight: #2a2a2a;
@@ -59,6 +59,26 @@ html {
   color: var(--bg-base);
 }
 
+/* Skip to main content link for screen readers */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 10000;
+  padding: 8px 16px;
+  background: var(--accent-primary);
+  color: var(--bg-void);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  left: 8px;
+  top: 8px;
+}
+
 body {
   height: 100%;
   background-color: var(--bg-void);
@@ -76,51 +96,4 @@ body {
   height: 100dvh;
   display: flex;
   position: relative;
-}
-
-/*
- * Cinema reveal animation is placed on a pseudo-overlay INSTEAD of #root.
- * This avoids the filter:blur() stacking context trap that breaks
- * position:fixed children (guide lines) during the animation.
- */
-#root::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: var(--bg-void);
-  z-index: 9999;
-  pointer-events: none;
-  animation: cinemaRevealOverlay 2.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-}
-
-@keyframes cinemaRevealOverlay {
-  0%   { opacity: 1; }
-  60%  { opacity: 1; }
-  100% { opacity: 0; pointer-events: none; }
-}
-
-/* The content itself fades in cleanly without filter */
-#root > * {
-  animation: contentFadeIn 2s cubic-bezier(0.19, 1, 0.22, 1) 0.4s both;
-}
-
-@keyframes contentFadeIn {
-  0%   { opacity: 0; transform: scale(1.01); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-/* Skip / shorten animations for users who prefer reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  #root::before {
-    animation: none;
-    opacity: 0;
-  }
-  #root > * {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-  .view-enter {
-    animation: none;
-  }
 }
