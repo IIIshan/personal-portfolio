@@ -480,9 +480,9 @@ export interface ContactLink {
 }
 
 export const CONTACT: ContactLink[] = [
-  { label: 'github.com/ishanrana',        url: 'https://github.com/ishanrana' },
-  { label: 'linkedin.com/in/ishanrana',   url: 'https://linkedin.com/in/ishanrana' },
-  { label: 'ishan@proton.me',             url: 'mailto:ishan@proton.me' },
+  { label: 'github.com/IIIshan',            url: 'https://github.com/IIIshan' },
+  { label: 'linkedin.com/in/ishanrana07',  url: 'https://www.linkedin.com/in/ishanrana07/' },
+  { label: 'ishan@proton.me',              url: 'mailto:ishan@proton.me' },
 ]
 
 // ─── Quotes ───────────────────────────────────────────────────────────────────
