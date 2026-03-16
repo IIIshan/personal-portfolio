@@ -240,7 +240,7 @@ export default function Sidebar({ isOpen = false, onToggle, activeFile, onFileSe
   return (
     <>
       {/* Dark scrim behind drawer on mobile */}
-      {isDrawerOpen && (
+      {isMobile && isDrawerOpen && (
         <div
           className="sidebar-backdrop"
           onClick={closeDrawer}
