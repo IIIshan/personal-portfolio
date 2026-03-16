@@ -143,8 +143,8 @@ function useIsMobile(): boolean {
 export default function Sidebar({ isOpen = false, onToggle, activeFile, onFileSelect }: SidebarProps) {
   const navigate = useNavigate()
   const isMobile = useIsMobile()
-  // On mobile: EXPANDED by default (show labels)
-  // On desktop (>= 1024px): COLLAPSED (icons only)
+  // On desktop (>= 1024px): use collapsed state for icon-only view
+  // On mobile: collapsed state is NOT used - drawer is controlled by isOpen prop
   const [collapsed, setCollapsed] = useState(() => window.innerWidth >= 1024)
   const [openFolders, setOpenFolders] = useState<Record<string, boolean>>(
     buildInitialOpenState(FILE_TREE)
@@ -155,17 +155,22 @@ export default function Sidebar({ isOpen = false, onToggle, activeFile, onFileSe
   const sidebarRef = useRef<HTMLElement>(null)
   const previousFocusRef = useRef<HTMLElement | null>(null)
 
-  const isDrawerOpen = isMobile && (isOpen || !collapsed)
+  // On mobile: drawer is controlled purely by isOpen prop (from parent)
+  // On desktop: drawer is controlled by collapsed state
+  const isDrawerOpen = isMobile ? isOpen : !collapsed
 
   const toggleFolder = (id: string) => {
     setOpenFolders((prev) => ({ ...prev, [id]: !prev[id] }))
   }
 
-  // Close the drawer (mobile only)
+  // Close the drawer - different behavior for mobile vs desktop
   const closeDrawer = useCallback(() => {
-    setCollapsed(true)
-    onToggle?.()
-  }, [onToggle])
+    if (isMobile) {
+      onToggle?.()
+    } else {
+      setCollapsed(true)
+    }
+  }, [isMobile, onToggle])
 
   // File select wrapper — auto-close drawer on mobile
   const handleFileSelect = useCallback((fileId: string, path: string) => {

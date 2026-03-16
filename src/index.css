@@ -96,16 +96,23 @@ html {
 }
 
 .mobile-header .hamburger-menu {
-  display: flex;
+  display: flex !important;
   position: static;
   background: transparent;
   border: none;
   padding: 4px;
+  cursor: pointer;
 }
 
 .mobile-header .hamburger-menu:hover {
   background: var(--bg-base);
-  border-color: transparent;
+}
+
+.mobile-header .hamburger-menu svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+  stroke: var(--fg-primary);
 }
 
 .mobile-title {
@@ -119,7 +126,14 @@ html {
 
 @media (max-width: 767px) {
   .mobile-header {
-    display: flex;
+    display: flex !important;
+  }
+
+  /* Ensure hamburger is ALWAYS visible on mobile */
+  .mobile-header .hamburger-menu {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   #root {

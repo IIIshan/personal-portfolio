@@ -12,21 +12,20 @@ export interface TabItem {
 }
 
 const DEFAULT_FILE = 'profile.md'
-const MOBILE_BREAKPOINT = 767
+const MOBILE_MQ = '(max-width: 767px)'
 
 export default function App() {
   const location = useLocation()
   const navigate = useNavigate()
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= MOBILE_BREAKPOINT)
+  const [isMobile, setIsMobile] = useState(() => window.matchMedia(MOBILE_MQ).matches)
 
-  // Track mobile state
+  // Track mobile state using matchMedia for consistency
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT)
-    }
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    const mql = window.matchMedia(MOBILE_MQ)
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches)
+    mql.addEventListener('change', handler)
+    return () => mql.removeEventListener('change', handler)
   }, [])
 
   // Derive the active file from the current URL, fall back to default
