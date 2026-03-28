@@ -27,28 +27,33 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key_path: ssh_key
+          debug: true
           script: |
             set -e
             
-            # Navigate to project directory
-            cd ~/Personal_Portfolio || mkdir -p ~/Personal_Portfolio
+            echo "=== Starting deployment ==="
             
-            # Clone or pull latest code
-            if [ -d .git ]; then
+            # Check if directory exists
+            if [ -d ~/Personal_Portfolio ]; then
+              echo "Directory exists, pulling latest code..."
+              cd ~/Personal_Portfolio
               git fetch origin main
               git reset --hard origin/main
             else
+              echo "Directory doesn't exist, cloning repo..."
+              mkdir -p ~/Personal_Portfolio
+              cd ~/Personal_Portfolio
               git clone https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} .
             fi
             
-            # Build Docker image locally
+            echo "=== Building Docker image ==="
             docker build -t portfolio-web:latest .
             
-            # Stop and remove old container
-            docker stop portfolio-web 2>/dev/null || true
-            docker rm portfolio-web 2>/dev/null || true
+            echo "=== Stopping old container ==="
+            docker stop portfolio-web 2>/dev/null || echo "No existing container to stop"
+            docker rm portfolio-web 2>/dev/null || echo "No existing container to remove"
             
-            # Run new container (preserving volumes)
+            echo "=== Starting new container ==="
             docker run -d \
               --name portfolio-web \
               --restart unless-stopped \
@@ -58,7 +63,7 @@ jobs:
               -v caddy_config:/config \
               portfolio-web:latest
             
-            # Clean up old images
+            echo "=== Cleaning up ==="
             docker image prune -f || true
             
-            echo "Deployment complete!"
+            echo "=== Deployment complete! ==="
