@@ -124,28 +124,45 @@ function renderTree(
 // ─── Mobile media query hook ──────────────────────────────────────────────────
 
 const MOBILE_MQ = '(max-width: 767px)'
+const DESKTOP_MQ = '(min-width: 1024px)'
 
-function useIsMobile(): boolean {
-  const [isMobile, setIsMobile] = useState(() => window.matchMedia(MOBILE_MQ).matches)
+function useBreakpoint(): { isMobile: boolean; isDesktop: boolean } {
+  const [breakpoints, setBreakpoints] = useState(() => ({
+    isMobile: window.matchMedia(MOBILE_MQ).matches,
+    isDesktop: window.matchMedia(DESKTOP_MQ).matches,
+  }))
 
   useEffect(() => {
-    const mql = window.matchMedia(MOBILE_MQ)
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches)
-    mql.addEventListener('change', handler)
-    return () => mql.removeEventListener('change', handler)
+    const mqlMobile = window.matchMedia(MOBILE_MQ)
+    const mqlDesktop = window.matchMedia(DESKTOP_MQ)
+
+    const handler = (e: MediaQueryListEvent) => {
+      setBreakpoints({
+        isMobile: mqlMobile.matches,
+        isDesktop: mqlDesktop.matches,
+      })
+    }
+
+    mqlMobile.addEventListener('change', handler)
+    mqlDesktop.addEventListener('change', handler)
+    return () => {
+      mqlMobile.removeEventListener('change', handler)
+      mqlDesktop.removeEventListener('change', handler)
+    }
   }, [])
 
-  return isMobile
+  return breakpoints
 }
 
 // ─── Sidebar component ────────────────────────────────────────────────────────
 
 export default function Sidebar({ isOpen = false, onToggle, activeFile, onFileSelect }: SidebarProps) {
   const navigate = useNavigate()
-  const isMobile = useIsMobile()
+  const { isMobile, isDesktop } = useBreakpoint()
   // On desktop (>= 1024px): use collapsed state for icon-only view
-  // On mobile: collapsed state is NOT used - drawer is controlled by isOpen prop
-  const [collapsed, setCollapsed] = useState(() => window.innerWidth >= 1024)
+  // On mobile (< 768px): collapsed state is NOT used - drawer is controlled by isOpen prop
+  // Tablet (768px - 1023px): behave like desktop (use collapsed state)
+  const [collapsed, setCollapsed] = useState(() => isDesktop)
   const [openFolders, setOpenFolders] = useState<Record<string, boolean>>(
     buildInitialOpenState(FILE_TREE)
   )

@@ -53,7 +53,7 @@
 .markdown-body h2 {
   font-family: var(--font-mono);
   font-weight: 400;
-  font-size: 12px;
+  font-size: 18px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--fg-pure);
@@ -76,7 +76,7 @@
   font-weight: 300;
   color: var(--fg-secondary);
   margin-bottom: 24px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.7;
 }
 
@@ -97,6 +97,7 @@
   margin-bottom: 12px;
   color: var(--fg-secondary);
   font-weight: 300;
+  font-size: 16px;
 }
 
 .markdown-body li::before {
@@ -134,7 +135,7 @@
 
 .markdown-body code {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 14px;
   color: var(--fg-primary);
   line-height: 1.6;
 }
@@ -327,7 +328,7 @@
 
 .stack-yaml code {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 14px;
   line-height: 2;
   white-space: pre;
   display: block;
