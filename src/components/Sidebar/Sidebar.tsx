@@ -162,7 +162,7 @@ export default function Sidebar({ isOpen = false, onToggle, activeFile, onFileSe
   // On desktop (>= 1024px): use collapsed state for icon-only view
   // On mobile (< 768px): collapsed state is NOT used - drawer is controlled by isOpen prop
   // Tablet (768px - 1023px): behave like desktop (use collapsed state)
-  const [collapsed, setCollapsed] = useState(() => isDesktop)
+  const [collapsed, setCollapsed] = useState(() => !isDesktop)
   const [openFolders, setOpenFolders] = useState<Record<string, boolean>>(
     buildInitialOpenState(FILE_TREE)
   )
