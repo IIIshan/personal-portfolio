@@ -14,7 +14,11 @@ ishanrana.dev {
 		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 		Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'"
 		Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
-		X-DNS-Prefetch-Control "on"
+		X-DNS-Prefetch-Control "off"
+		
+		# Additional security headers
+		Cross-Origin-Opener-Policy "same-origin"
+		Cross-Origin-Resource-Policy "same-origin"
 	}
 
 	header /assets/* {

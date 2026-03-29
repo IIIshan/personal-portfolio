@@ -27,7 +27,6 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key_path: ssh_key
-          debug: true
           script: |
             set -e
             
