@@ -1,8 +1,7 @@
-# ISHAN'S\_ARCHIVE
+# ISHAN'S_ARCHIVE
 
 > Personal portfolio built as a VS Code / Obsidian-style file vault — dark cyberpunk UI with sidebar file tree, tabs, editor pane, and status bar.
 
-<!-- Replace with an actual screenshot: ![Screenshot](./docs/screenshot.png) -->
 <p align="center"><em>screenshot coming soon</em></p>
 
 ## About
@@ -15,13 +14,13 @@ All personal content lives in **one TypeScript file** (`src/data/content.ts`). T
 
 - **VS Code-inspired layout** — sidebar, tabs, editor pane, status bar
 - **Data-driven file tree** — collapsible folders with semantic SVG icons and accent colors
-- **Client-side routing** — React Router v6 with deep links, back/forward navigation, and `historyApiFallback`
+- **Client-side routing** — React Router v6 with deep links, back/forward navigation
 - **Mobile-responsive** — overlay drawer sidebar with backdrop, focus trap, and auto-close on navigation
 - **Accessible** — `:focus-visible` outlines, ARIA roles and labels, keyboard navigation, skip-to-content link, `prefers-reduced-motion` support
 - **Single-file content** — edit `content.ts` to update everything; no component changes needed
 - **Cyberpunk Mono palette** — four accent colors (mint, cyan, orange, purple) defined as CSS custom properties
-- **Dockerized development** — no Node.js required on the host machine
-- **Lightweight** — zero runtime dependencies beyond React and React Router; plain CSS, no UI framework
+- **Dockerized** — runs in Docker containers
+- **CI/CD Automated** — automatic deployment via GitHub Actions on every push
 
 ## Tech Stack
 
@@ -32,8 +31,9 @@ All personal content lives in **one TypeScript file** (`src/data/content.ts`). T
 | Routing     | React Router v6                     |
 | Styling     | Plain CSS with custom properties    |
 | Fonts       | Inter (body), JetBrains Mono (UI)   |
-| Dev env     | Docker + Docker Compose             |
 | Production  | Caddy 2 (auto HTTPS + static serve) |
+| CI/CD       | GitHub Actions                      |
+| Container   | Docker                              |
 
 ## Project Structure
 
@@ -51,60 +51,46 @@ src/
     │   ├── Sidebar.tsx               # File tree, collapse toggle, mobile overlay drawer
     │   ├── Sidebar.css
     │   ├── TreeItem.tsx              # Recursive tree node (folder / file)
-    │   ├── TreeItem.css
-    │   └── icons.tsx                 # Inline SVG icon set (User, Layers, Terminal, Tools, etc.)
+    │   └── icons.tsx                 # Inline SVG icon set
     └── Workspace/
-        ├── Workspace.tsx             # Editor + tabs + status bar wrapper, skip-to-content link
-        ├── Workspace.css
-        ├── Tabs.tsx                  # Open file tabs with keyboard support
-        ├── Tabs.css
+        ├── Workspace.tsx             # Editor + tabs + status bar wrapper
+        ├── Tabs.tsx                  # Open file tabs
         ├── StatusBar.tsx             # Bottom status bar
-        ├── StatusBar.css
         └── Editor/
             ├── EditorContainer.tsx   # Routes active file to the correct view
-            ├── EditorContainer.css
             ├── Frontmatter.tsx       # YAML-style metadata block
-            ├── Frontmatter.css
             ├── ProjectCard.tsx       # Individual project card
-            ├── ProjectCard.css
             ├── TagContainer.tsx      # Tag pill list
-            ├── TagContainer.css
-            ├── InternalLink.tsx      # Wiki-style internal links
-            └── InternalLink.css
+            └── InternalLink.tsx      # Wiki-style internal links
 ```
 
 ## Getting Started
 
 ### Prerequisites
 
-- [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
+- [Node.js](https://nodejs.org/) (v22+) or [Docker](https://docs.docker.com/get-docker/)
 
-That's it. No local Node.js installation required.
-
-### Development
+### Local Development
 
 ```bash
-# Start the dev server
-docker compose up
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 
 # App is live at http://localhost:5173
-```
-
-Vite's HMR is enabled — edits reflect instantly in the browser.
-
-### Type Check
-
-```bash
-docker exec personal_portfolio-app-1 npx tsc --noEmit
 ```
 
 ### Production Build
 
 ```bash
-docker exec personal_portfolio-app-1 npm run build
-```
+# Build the app
+npm run build
 
-Output is written to `dist/`.
+# Preview production build
+npm run preview
+```
 
 ## Customization
 
@@ -120,24 +106,10 @@ Edit [`src/data/content.ts`](src/data/content.ts) to update:
 | `TAGS`        | Skill/tag pills below the heading             |
 | `BIO`         | Short bio paragraph                           |
 | `WORK`        | Work experience entries                       |
-| `PROJECTS`    | Project cards (title, description, status)    |
-| `BLOG`        | Blog post entries (title, description)        |
-| `BLOG_INTRO`  | Intro text on the blog listing page           |
+| `PROJECTS`    | Project cards                                 |
+| `BLOG`        | Blog post entries                             |
 | `STACK`       | Tech stack YAML-style key-value pairs         |
-| `CONTACT`     | Contact links (GitHub, LinkedIn, email, etc.) |
-| `QUOTE`       | Footer quote on the profile page              |
-
-### File Tree
-
-Edit [`src/data/fileTree.ts`](src/data/fileTree.ts) to add, remove, or rename sidebar entries. Each node has:
-
-- `id` — unique key (must match `FILE_VIEW_MAP` for leaf nodes)
-- `label` — display name in the sidebar
-- `path` — URL path for routing (leaf nodes only)
-- `iconName` — icon key (`user`, `layers`, `terminal`, `tools`, `filetext`, `pen`, `archive`)
-- `isFolder` / `defaultOpen` — folder behavior
-
-After adding a new file node, also add its `id` to `FILE_VIEW_MAP` and its `path` to `PATH_TO_FILE_ID` in the same file.
+| `CONTACT`     | Contact links                                 |
 
 ### Accent Colors
 
@@ -157,56 +129,67 @@ Production runs as a single Docker container using [Caddy](https://caddyserver.c
 ### Architecture
 
 ```
-Internet → Cloudflare DNS → VPS (206.189.131.132)
-                              │
-                         ┌────▼────┐
-                         │  Caddy  │  ← serves static files + auto HTTPS
-                         │  :443   │     (runs inside Docker container)
-                         └─────────┘
+GitHub Push → GitHub Actions → VPS (206.189.131.132)
+                                        │
+                                   ┌────▼────┐
+                                   │  Caddy  │  ← serves static files + auto HTTPS
+                                   │  :443   │     (runs inside Docker container)
+                                   └─────────┘
 ```
 
-Nothing runs on the VPS host except Docker. The build, Caddy, and SSL provisioning all happen inside containers.
+### How It Works
+
+1. **Push to main branch** → Triggers GitHub Actions workflow
+2. **GitHub Actions** → SSH into VPS, pull latest code, build Docker image
+3. **VPS** → Stops old container, starts new container with new image
+4. **Caddy** → Automatically provisions SSL certificates via Let's Encrypt
 
 ### Prerequisites
 
-- A VPS running Ubuntu (22.04 or 24.04)
+- A VPS running Ubuntu (22.04 or 24.04) with Docker installed
 - A domain with DNS A records pointing to the VPS IP
-- DNS must be set to **DNS only** (not proxied) if using Cloudflare — Caddy needs direct access for Let's Encrypt ACME challenges
+- GitHub repository with the following secrets configured:
+
+| Secret | Description |
+|--------|-------------|
+| `VPS_HOST` | Your VPS IP address |
+| `VPS_USERNAME` | SSH username (e.g., `root`) |
+| `VPS_SSH_KEY` | Private SSH key (base64 encoded) |
 
 ### First-Time Setup
 
-SSH into the VPS and run:
+1. Clone the repository on your VPS:
 
 ```bash
-git clone https://github.com/IIIshan/personal-portfolio.git /opt/portfolio
-cd /opt/portfolio
-bash scripts/setup-vps.sh
+mkdir -p ~/Personal_Portfolio
+git clone https://github.com/IIIshan/personal-portfolio.git ~/Personal_Portfolio
+cd ~/Personal_Portfolio
+docker build -t portfolio-web:latest .
+docker run -d --name portfolio-web -p 80:80 -p 443:443 -v caddy_data:/data -v caddy_config:/config --restart unless-stopped portfolio-web:latest
 ```
 
-The setup script installs Docker, builds the production image, and starts Caddy. SSL certificates are provisioned automatically once DNS propagates.
+2. Wait for Let's Encrypt to provision SSL certificates (automatic)
 
 ### Updating
 
-After pushing changes to GitHub:
+Simply push changes to the `main` branch. CI/CD will automatically deploy to your VPS.
 
-```bash
-ssh root@<your-vps-ip>
-bash /opt/portfolio/scripts/deploy.sh
-```
+### Manual Deploy
 
-This pulls the latest code, rebuilds the Docker image, and restarts the container with zero downtime.
+To trigger a deployment manually:
+1. Go to GitHub repository → Actions
+2. Select "Deploy to VPS" workflow
+3. Click "Run workflow"
 
 ### Key Files
 
 | File | Purpose |
 |------|---------|
-| `Dockerfile` | Multi-stage build: `node:20-alpine` compiles the app → `caddy:2-alpine` serves `dist/` |
+| `Dockerfile` | Multi-stage build: `node:22-alpine` compiles the app → `caddy:2-alpine` serves `dist/` |
 | `Caddyfile` | Static file serving, SPA fallback, gzip, security headers, auto HTTPS |
-| `docker-compose.prod.yml` | Production container config with persistent volumes for SSL certs |
-| `scripts/setup-vps.sh` | One-time VPS bootstrap (installs Docker, clones repo, starts services) |
-| `scripts/deploy.sh` | Repeat deploy (pulls latest code, rebuilds, restarts) |
+| `docker-compose.prod.yml` | Production container config with persistent volumes |
+| `.github/workflows/deploy.yml` | GitHub Actions workflow for automated deployment |
 
 ## License
 
 [MIT](LICENSE)
-# test CI/CD
