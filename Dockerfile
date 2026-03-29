@@ -12,7 +12,8 @@ COPY Caddyfile /etc/caddy/Caddyfile
 COPY --from=build /app/dist /srv
 
 # Create non-root user and set permissions
-RUN mkdir -p /var/lib/caddy && \
+RUN adduser -D -u 1000 caddy && \
+    mkdir -p /var/lib/caddy && \
     chown -R caddy:caddy /var/lib/caddy /srv /etc/caddy
 
 # Switch to non-root user
