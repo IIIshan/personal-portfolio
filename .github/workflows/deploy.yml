@@ -67,3 +67,26 @@ jobs:
             docker image prune -f || true
             
             echo "=== Deployment complete! ==="
+            
+            echo "=== Checking container status ==="
+            docker ps -a
+            
+            echo "=== Checking container logs ==="
+            docker logs portfolio-web --tail 30 || echo "No logs available"
+            
+            echo "=== Starting container if stopped ==="
+            docker start portfolio-web || echo "Container already running or failed to start"
+            
+            echo "=== Verifying container is running ==="
+            docker ps | grep portfolio-web || echo "Container not running"
+            
+            echo "=== Checking if port is listening ==="
+            docker exec portfolio-web sh -c "netstat -tlnp 2>/dev/null || ss -tlnp" || echo "Port check failed"
+            
+            echo "=== Verifying deployment ==="
+            sleep 5
+            docker ps -a
+            docker logs portfolio-web --tail 20 || echo "No logs available"
+            
+            echo "=== Testing port connectivity ==="
+            docker exec portfolio-web curl -s -o /dev/null -w "%{http_code}" http://localhost/ || echo "Container internal check failed"
