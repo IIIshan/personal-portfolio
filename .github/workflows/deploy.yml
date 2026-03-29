@@ -53,6 +53,9 @@ jobs:
             docker stop portfolio-web 2>/dev/null || echo "No existing container to stop"
             docker rm portfolio-web 2>/dev/null || echo "No existing container to remove"
             
+            echo "=== Removing old volumes (fixes permission issue) ==="
+            docker volume rm caddy_data caddy_config 2>/dev/null || echo "No existing volumes to remove"
+            
             echo "=== Starting new container ==="
             docker run -d \
               --name portfolio-web \
