@@ -33,14 +33,15 @@ jobs:
             
             echo "=== Starting deployment ==="
             
-            # Check if directory exists
-            if [ -d ~/Personal_Portfolio ]; then
-              echo "Directory exists, pulling latest code..."
+            # Check if it's a git repository (has .git folder)
+            if [ -d ~/Personal_Portfolio/.git ]; then
+              echo "Git repo exists, pulling latest code..."
               cd ~/Personal_Portfolio
               git fetch origin main
               git reset --hard origin/main
             else
-              echo "Directory doesn't exist, cloning repo..."
+              echo "No git repo, cloning fresh..."
+              rm -rf ~/Personal_Portfolio
               mkdir -p ~/Personal_Portfolio
               cd ~/Personal_Portfolio
               git clone https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} .
